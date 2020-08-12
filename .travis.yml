@@ -9,5 +9,5 @@ jobs:
       script:
         - npm run build
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
-        - docker build -t image-processor:$TRAVIS_COMMIT .
-        - docker push image-processor:$TRAVIS_COMMIT
+        - docker build -t $DOCKER_USER/image-processor:$TRAVIS_COMMIT .
+        - docker push $DOCKER_USER/image-processor:$TRAVIS_COMMIT

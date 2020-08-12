@@ -1,0 +1,13 @@
+os: linux
+language: node_js
+cache: npm
+
+jobs:
+  include:
+    - stage: build-js
+      node_js: lts/*
+      script:
+        - npm run build
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+        - docker build -t image-processor:$TRAVIS_COMMIT .
+        - docker push image-processor:$TRAVIS_COMMIT

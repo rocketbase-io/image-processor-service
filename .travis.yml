@@ -11,10 +11,5 @@ jobs:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
         - docker build -t $DOCKER_USER/image-processor:$TRAVIS_COMMIT -t $DOCKER_USER/image-processor:latest -t $DOCKER_USER/image-processor:$TRAVIS_BRANCH .
         - docker push $DOCKER_USER/image-processor:$TRAVIS_COMMIT
-      deploy:
-        provider: script
-        skip_cleanup: true
-        cleanup: false
-        script: docker push $DOCKER_USER/image-procesor:latest && docker push $DOCKER_USER/image-processor:$TRAVIS_BRANCH
-        on:
-          branch: master
+        - docker push $DOCKER_USER/image-processor:$TRAVIS_BRANCH
+        - if [[ "$TRAVIS_BRANCH" == "master" ]]; then docker push $DOCKER_USER/image-processor:latest; fi;
